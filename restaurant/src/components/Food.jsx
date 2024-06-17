@@ -9,6 +9,7 @@ import { additemtocart } from "../store/cartSlice";
 
 export default function Food() {
     const [image, setimage] = useState(0)
+    const [gocart, setGocart] = useState(true)
     const [Quantity, setQuantity] = useState(1)
     const [item, setPost] = useState({});
     const [fooditems, setfooditems] = useState()
@@ -17,7 +18,9 @@ export default function Food() {
     const { slug } = useParams();
     const s = useSelector(state => state.fooditems.fooditems)
     
-    let isAuthor = item && userData ? item.Createdby === userData.$id : false;
+    let isAuthor = item && userData.labels.includes('admin');
+
+    
     useEffect(() => {
         setfooditems(s)
         fooditems?.map((item) => {
@@ -28,9 +31,11 @@ export default function Food() {
             }
         })
         console.log(fooditems,'food items form food')
+        
     }, [slug, navigate, fooditems, isAuthor])
 
     const dispatch = useDispatch();
+    console.log(item)
 
     const deletePost = () => {
         // notifysuccess("deletion sucessfull!")
@@ -175,15 +180,25 @@ export default function Food() {
 
                             <div class="pb-2"></div>
                             <div class="space-y-2.5 pt-1.5 md:space-y-3.5 lg:pt-3 xl:pt-4">
-                                <button
+                                {gocart?<button
                                     type="button"
                                     class="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                                     onClick={()=>{
+                                        setGocart(false)
                                         dispatch(additemtocart({Name:item.Name,OrderPrice:item.OrderPrice,SalePrice:item.SalePrice,Quantity:Quantity,ItemID:item.$id,image:item.Images}))
                                     }}
                                 >
                                     Add to Cart
-                                </button>
+                                </button>:
+                                <button
+                                    type="button"
+                                    class="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                                    onClick={()=>{
+                                        navigate('/cart')
+                                    }}
+                                >
+                                    Go to cart
+                                </button>}
 
                                 
                                 <div class="grid grid-cols-2 gap-2.5">
@@ -242,7 +257,7 @@ export default function Food() {
                                     }
                                 </p>
                             </div>
-                            {true && (
+                            {isAuthor && (
                 <div className="flex justify-end space-x-4">
                     <button
                         onClick={() => {

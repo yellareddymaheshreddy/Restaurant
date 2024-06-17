@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import appwriteservice from '../appwrite/config'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +7,7 @@ import { ID } from 'appwrite'
 
 const Checkout = () => {
     const userData = useSelector(state => state.auth.userData)
+    const [Location, setLocation] = useState()
     const Items = useSelector(state => state.cartitems.cartitems)
     let totalOrderPrice = 0;
     let totalSalePrice = 0;
@@ -24,6 +25,7 @@ const Checkout = () => {
             Rideremail: userData.email || '',
             MobileNumber: userData.phone || '+91',
             Ridername: userData.name || '',
+            Location: Location,
 
         }
     });
@@ -42,6 +44,8 @@ const Checkout = () => {
         })
         if (dbride) {
             // notifysuccess("Ride Created Successfully!")
+            console.log('order successfull')
+            navigate('/')
         } else {
             // notifyfail("something went wrong when createing file on server")
         }
@@ -160,6 +164,34 @@ const Checkout = () => {
 
                                                         </div>
                                                     </div>
+                                                    <div className='w-max' 
+                                                    onClick={()=>{
+                                                        navigator.geolocation.getCurrentPosition((position) => {
+                                                            console.log(position.coords.latitude, position.coords.longitude);
+                                                            setLocation(`${position.coords.latitude},${position.coords.longitude}`)
+                                                          });
+                                                    }}>
+                                                        <label
+                                                            htmlFor="cvc"
+                                                            className="block text-sm font-medium text-gray-700"
+                                                        >
+                                                            Location:
+                                                        </label>
+                                                        <div className="mt-1">
+                                                            <input
+                                                                min={1}
+                                                                placeholder='Give location permission'
+                                                                type="text"
+                                                                name="cvc"
+                                                                id="cvc"
+                                                                autoComplete="csc"
+                                                                className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                {...register("Location", { required: true })}
+                                                                value={Location}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    
 
 
                                                 </div>

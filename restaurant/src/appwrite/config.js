@@ -103,7 +103,7 @@ export class Service {
     }
     //code for order management
 
-    async createOrder({ MobileNumber, Items, Address, GrandTotal, Message, Orderby }) {
+    async createOrder({ MobileNumber, Items, Address, GrandTotal, Message, Orderby,Location }) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -115,7 +115,8 @@ export class Service {
                     Address,
                     GrandTotal,
                     Message,
-                    Orderby
+                    Orderby,
+                    Location
                 }
             )
         } catch (error) {

@@ -169,14 +169,25 @@ function Row({data}) {
                       </Link>
                       </td>
                       <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-500">
-                        {data?.Address}
+                        <div className='flex justify-between'>
+                          <span>{data?.Address}</span>
+                          {data?.Location?<button 
+                          className='bg-yellow-200 rounded-full px-2 border border-yellow-500 font-black shadow-xl ml-4'
+                          onClick={()=>{
+                            window.open(`https://www.google.com/maps/dir/?api=1&destination=${data?.Location}`)
+                          }}>
+                            Maps
+                          </button>:''}
+                        </div>
+                        
+                        
                       </td>
                       <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-500 text-wrap">
                         {data?.Message}
                       </td>
                       <td class="whitespace-nowrap px-4 py-4 text-right text-sm font-medium">
-                        <a href="#" class="text-gray-500 hover:text-indigo-600">
-                          {data?.GrandTotal}
+                        <a href="#" class="text-gray-700 hover:text-indigo-600">
+                          ₹{data?.GrandTotal}
                         </a>
                       </td>
                     </tr>

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { additemtocart } from '../store/cartSlice';
 
 const Landingpage = () => {
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const username = useSelector(state => state.auth.userData.name);
@@ -31,17 +30,6 @@ const Landingpage = () => {
                         <h1 className="mt-8 text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-6xl">
                             Make friends by travelling
                         </h1>
-                       
-                                <button
-                                    type="button"
-                                    onClick={()=>{
-                                        window.open("https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=17.619077,77.950623");
-                                    }}
-                                    className="min-w-max rounded-full bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                                >
-                                    
-                                    Maps
-                                </button>
                           
                         <p className="mt-8 text-lg text-gray-700">
                             Service to others is the rent you pay for your room here on earth.
@@ -141,10 +129,10 @@ const Landingpage = () => {
                                 </div>
                                 <button
                                     type="button"
-                                    onClick={() => {
+                                    class="mt-4 w-full rounded-sm bg-black px-2 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                                    onClick={()=>{
                                         dispatch(additemtocart({ Name: item.Name, OrderPrice: item.OrderPrice, SalePrice: item.SalePrice, Quantity: 1, ItemID: item.$id, image: item.Images }))
                                     }}
-                                    className="mt-4 w-full rounded-sm bg-black px-2 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                                 >
                                     Add to Cart
                                 </button>
