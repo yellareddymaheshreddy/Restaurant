@@ -35,7 +35,7 @@ const Landingpage = () => {
                                 <button
                                     type="button"
                                     onClick={()=>{
-                                        window.open("https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=47.2211327,78.600856");
+                                        window.open("https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=17.619077,77.950623");
                                     }}
                                     className="min-w-max rounded-full bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                                 >
