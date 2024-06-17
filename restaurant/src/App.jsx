@@ -21,11 +21,10 @@ function App() {
     // window.addEventListener('beforeinstallprompt', (e) => {
     //     setprompt(e);
     // });
-
+    console.log("app mounted")
     service.getFoodItems().then((items) => {
       if (items) {
         dispatch(setfood(items.documents))
-        console.log("setting food items to store")
       
       }
     })

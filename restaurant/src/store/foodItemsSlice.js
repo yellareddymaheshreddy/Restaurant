@@ -12,7 +12,8 @@ const FoodSlice = createSlice({
 
         updatefood: (state,action) => {
             const data=action.payload.data;
-            state.fooditems=state.fooditems.map((item)=>{if(item.itemid!==action.payload.id){
+            state.fooditems=state.fooditems.map((item)=>{
+                if(item.$id!==action.payload.id){
                 return item
             }
         return data})

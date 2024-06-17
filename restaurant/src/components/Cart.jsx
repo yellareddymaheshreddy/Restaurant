@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deletefromcart } from '../store/cartSlice';
+import { deletefromcart, updatecart } from '../store/cartSlice';
 // import service from '../appwrite/config';
 import { useNavigate } from 'react-router-dom';
 
@@ -74,6 +74,11 @@ const Cart = () => {
                   <div class="mb-2 flex">
                     <div class="min-w-24 flex">
                       <button type="button" class="h-7 w-7"
+                      onClick={()=>{
+                        // console.log(item)
+                        dispatch(updatecart({data:{...item,Quantity:item.Quantity-1},id:item.ItemID}))
+                      }}
+                      
                       >
                         -
                       </button>
@@ -83,6 +88,10 @@ const Cart = () => {
                         value={item.Quantity}
                       />
                       <button
+                        onClick={()=>{
+                          // console.log(item)
+                          dispatch(updatecart({data:{...item,Quantity:item.Quantity+1},id:item.ItemID}))
+                        }}
                         type="button"
                         class="flex h-7 w-7 items-center justify-center"
                       >
@@ -93,9 +102,7 @@ const Cart = () => {
                       <button
                       onClick={()=>{
                         dispatch(deletefromcart(item.ItemID))
-                        console.log(
-                          "deletinon complete",item.ItemID
-                        )
+                    
                       }}
                         type="button"
                         class="flex items-center space-x-1 px-2 py-1 pl-0"

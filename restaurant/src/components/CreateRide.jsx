@@ -1,9 +1,9 @@
 import React from 'react'
-import {PostForm} from './'
+import FoodForm from './FoodForm'
 
 const CreateRide = () => {
   return (
-    <PostForm/>
+    <FoodForm/>
   )
 }
 

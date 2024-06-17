@@ -7,9 +7,7 @@ const AllOrders = () => {
   const [o, seto] = useState([])
   useEffect(() => {
     service.getAllOrders().then((allorders) => {
-      console.log(allorders.documents, 'o')
       seto(allorders.documents)
-      // console.log(o)
     })
   }, [])
 
@@ -20,14 +18,11 @@ const AllOrders = () => {
       if(response.events.includes("databases.*.collections.*.documents.*.create")){
         seto((prev)=>[...prev,response.payload])
       }
-      console.log(response);
   });
 
 
-  console.log('web socket connection success',o)
     return () => {
       unsubscribe()
-      console.log("websocket unsuscirbe")
     }
   }, [])
 

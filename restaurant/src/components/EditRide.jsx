@@ -1,27 +1,25 @@
 import React,{useState,useEffect} from 'react'
 import FoodForm from './FoodForm'
-// import PostForm from './PostForm'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const EditRide = () => {
-    const [ride, setrides] = useState(null)
+    const [item, setitems] = useState(null)
     const {slug}=useParams();
     const navigate=useNavigate();
     const allrides=useSelector(state => state.fooditems.fooditems);
 
     useEffect(() => {
-        console.log(allrides, "reading rides reastaurant")
-        allrides.map((ride)=>{
-            if(ride.$id==slug){
-                setrides(ride)
+        allrides.map((item)=>{
+            if(item.$id==slug){
+                setitems(item)
             }
         })
     }, [slug,navigate,allrides])
     
-    return ride?(
+    return item?(
         <div >
-            <FoodForm ride={ride}/>
+            <FoodForm item={item}/>
         </div>
     ):(null);
 }

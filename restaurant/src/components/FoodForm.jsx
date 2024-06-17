@@ -7,51 +7,52 @@ import { ID } from 'appwrite'
 // import { notifyfail, notifysuccess } from './toast'
 import { addfood,updatefood } from '../store/foodItemsSlice'
 
-const PostForm = ({ ride }) => {
+const FoodForm = ({ item }) => {
     const date = new Date().getFullYear() + "-0" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
-    const listofvechicles = ["Bike", "Car", "Auto", "Bus", "Lorry", "Ship", "Airplane", "Helicopter", "Scooter", "Tuk-tuk"];
+    const listofvechicles = ['Veg','Non-Veg'];
     const dispatch = useDispatch();
     const userData = useSelector(state => state.auth.userData)
     const { register, handleSubmit } = useForm({
         defaultValues: {
-            From: ride?.From || '',
-            To: ride?.To || '',
-            Vechicle: ride?.Vechicle || '',
-            NumberofPassengers: ride?.NumberofPassengers || '',
-            DateofRide: ride?.DateofRide || '',
-            Message: ride?.Message || '',
-            Rideid: ride?.Rideid || "",
-            Rideremail: ride?.Rideremail || userData.email || '',
-            Riderphone: ride?.Riderphone || userData.phone || '+91',
-            Ridername: ride?.Ridername || userData.name || '',
+            Name: item?.Name || '',
+            Description: item?.Description || '',
+            Category: item?.Category || '',
+            Status: item?.Status || '',
+            Images: item?.Images || '',
+            $id: item?.$id || "",
+            SalePrice:item?.SalePrice|| '+91',
+            OrderPrice:item?.OrderPrice || '',
 
         }
     });
     const navigate = useNavigate();
     const submit = async (data) => {
-        if (ride) {
-            dispatch(updatefood({ id: ride.Rideid, data }))
-            const dbride = await appwriteservice.updatePost(ride.Rideid, { ...data })
-            if (dbride) {
-                navigate(`/ride/${ride.Rideid}`)
+        console.log("submt")
+        if (item) {
+            dispatch(updatefood({data,$id:item.$id}))
+            const dbitem = await appwriteservice.updateFoodItem(item.$id, { ...data})
+            if (dbitem) {
+                navigate(`/ride/${item.$id}`)
             }
             // notifysuccess("Ride Updated Successfully!")
 
         }
         else {
             const uniqueid = ID.unique();
-            dispatch(addfood({ ...data, NumberofPassengers: Number(data.NumberofPassengers), Createdby: userData.$id, Rideid: uniqueid }))
+            console.log("createing food item")
+            dispatch(addfood({ ...data,Images:data.Images.split(',') ,Status: data.Status,$id:uniqueid}))
+            console.log(data.OrderPrice)
             navigate(`/ride/${uniqueid}`)
-            const dbride = await appwriteservice.createPost({
+            const dbride = await appwriteservice.createFoodItem(
+                uniqueid,{
                 ...data,
-                NumberofPassengers: Number(data.NumberofPassengers),
-                Createdby: userData.$id,
-                Rideid: uniqueid,
+                Images:data.Images.split(',') ,
+                Status: Number(data.Status),
             })
             if (dbride) {
-                notifysuccess("Ride Created Successfully!")
+                // notifysuccess("Ride Created Successfully!")
             } else {
-                notifyfail("something went wrong when createing file on server")
+                // notifyfail("something went wrong when createing file on server")
             }
         }
 
@@ -72,21 +73,21 @@ const PostForm = ({ ride }) => {
                                                     id="contact-info-heading"
                                                     className="text-lg font-semibold text-gray-900"
                                                 >
-                                                    Ride information
+                                                    Item information
                                                 </h3>
                                                 <div className="mt-4 w-full">
                                                     <label
                                                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                                                         htmlFor="name"
                                                     >
-                                                        From :
+                                                        Name :
                                                     </label>
                                                     <input
                                                         className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                         type="text"
-                                                        placeholder="Hyderabad...."
+                                                        placeholder="Chicken Biryani"
                                                         id="name"
-                                                        {...register("From", { required: true })}
+                                                        {...register("Name", { required: true })}
                                                     />
                                                 </div>
                                                 <div className="mt-4 w-full">
@@ -94,14 +95,14 @@ const PostForm = ({ ride }) => {
                                                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                                                         htmlFor="name"
                                                     >
-                                                        TO :
+                                                        Description :
                                                     </label>
                                                     <input
                                                         className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                         type="text"
-                                                        placeholder="Banglore....."
+                                                        placeholder="A tasty spicy biryani"
                                                         id="name"
-                                                        {...register("To", { required: true })}
+                                                        {...register("Description", { required: true })}
 
                                                     />
                                                 </div>
@@ -109,31 +110,27 @@ const PostForm = ({ ride }) => {
                                             <hr className="my-4" />
                                             <div className="mt-5">
                                                 <h3 className="text-lg font-semibold text-gray-900">
-                                                    Vechicle details
+                                                    Category details
                                                 </h3>
                                                 <div className="mt-2 grid  gap-x-4 gap-y-4 sm:grid-cols-4">
 
                                                     <div className="col-span-2 ">
-                                                        <label
-                                                            htmlFor="expiration-date"
+                                                    <label
+                                                            htmlFor="cvc"
                                                             className="block text-sm font-medium text-gray-700"
                                                         >
-                                                            Ride Date (MM/YY)
+                                                            Category Type:
                                                         </label>
                                                         <div className="mt-1">
-                                                            <input
+                                                            <select defaultValue={"Bike"} name="vechicle" id="vechicle" className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                {...register("Category", { required: true })}
+                                                                placeholder="Car"
+                                                            >
 
-                                                                min={date}
-                                                                type="date"
-                                                                name="expiration-date"
-                                                                placeholder='12-05-2024'
-                                                                id="expiration-date"
-                                                                autoComplete="cc-exp"
-                                                                className="block h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                                                {...register("DateofRide", { required: true })}
-                                                            // min={new Date().getDate()+ "-" +  parseInt(new Date().getMonth() + 1 ) + "-" + new Date().getFullYear()}
+                                                                {listofvechicles.map((Category) => <option key={Category} value={Category}>{Category}</option>
+                                                                )}
+                                                            </select>
 
-                                                            />
                                                         </div>
                                                     </div>
                                                     <div className='w-max'>
@@ -141,10 +138,20 @@ const PostForm = ({ ride }) => {
                                                             htmlFor="cvc"
                                                             className="block text-sm font-medium text-gray-700"
                                                         >
-                                                            No.of Passengers:
+                                                            Status:
                                                         </label>
                                                         <div className="mt-1">
-                                                            <input
+                                                        <select defaultValue={"Active"} name="vechicle" id="vechicle" className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                {...register("Status", { required: true })}
+                                                                placeholder="Active"
+                                                            >
+
+                                                                <option value='Active'>{'Active'}</option>
+                                                                <option value={'Disable'}>{'Disable'}</option>
+                                                                
+                                                            </select>
+
+                                                            {/* <input
                                                                 min={1}
                                                                 placeholder='1'
                                                                 type="number"
@@ -152,8 +159,8 @@ const PostForm = ({ ride }) => {
                                                                 id="cvc"
                                                                 autoComplete="csc"
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                                                {...register("NumberofPassengers", { required: true })}
-                                                            />
+                                                                {...register("Status", { required: true })}
+                                                            /> */}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -161,7 +168,7 @@ const PostForm = ({ ride }) => {
                                             <hr className="my-4" />
                                             <div className="mt-5">
                                                 <h3 className="text-lg font-semibold text-gray-900">
-                                                    Vechicle Details
+                                                    Image Links
                                                 </h3>
                                                 <div className="mt-2 grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-3">
                                                     <div className="sm:col-span-3">
@@ -169,40 +176,20 @@ const PostForm = ({ ride }) => {
                                                             htmlFor="address"
                                                             className="block text-sm font-medium text-gray-700"
                                                         >
-                                                            Message
+                                                            Images
                                                         </label>
                                                         <div className="mt-1">
-                                                            <input
-                                                                type="text"
-                                                                id="address"
-                                                                name="address"
-                                                                autoComplete="message"
-                                                                placeholder='Its a free ride ....'
-                                                                className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                                                {...register("Message", { required: true })}
+                                                            <textarea name="" id=""
+                                                            className="flex w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
+                                                            {...register("Images", { required: true })}>
 
-                                                            />
+                                                            </textarea>
+                                                            
 
                                                         </div>
                                                     </div>
                                                     <div className='w-max'>
-                                                        <label
-                                                            htmlFor="cvc"
-                                                            className="block text-sm font-medium text-gray-700"
-                                                        >
-                                                            Vechicle Type:
-                                                        </label>
-                                                        <div className="mt-1">
-                                                            <select defaultValue={"Bike"} name="vechicle" id="vechicle" className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                                                {...register("Vechicle", { required: true })}
-                                                                placeholder="Car"
-                                                            >
-
-                                                                {listofvechicles.map((Vechicle) => <option key={Vechicle} value={Vechicle}>{Vechicle}</option>
-                                                                )}
-                                                            </select>
-
-                                                        </div>
+                                                        
                                                     </div>
 
 
@@ -211,14 +198,14 @@ const PostForm = ({ ride }) => {
                                             <hr className="my-4" />
                                             <div className="mt-5">
                                                 <h3 className="text-lg font-semibold text-gray-900">
-                                                    Rider Contact Details!
+                                                    Price Details!
                                                 </h3>
                                                 <div className="sm:col-span-3">
                                                         <label
                                                             htmlFor="address"
                                                             className="block text-sm font-medium text-gray-700"
                                                         >
-                                                            Rider Name:
+                                                            Order Price:
                                                         </label>
                                                         <div className="mt-1">
                                                             <input
@@ -228,7 +215,7 @@ const PostForm = ({ ride }) => {
                                                                 autoComplete="phone"
                                                                 placeholder='Phone Number'
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                                                {...register("Ridername", { required: true })}
+                                                                {...register("OrderPrice", { required: true })}
 
                                                             />
 
@@ -241,7 +228,7 @@ const PostForm = ({ ride }) => {
                                                             htmlFor="address"
                                                             className="block text-sm font-medium text-gray-700"
                                                         >
-                                                            Phone Number:
+                                                            Sale Price:
                                                         </label>
                                                         <div className="mt-1">
                                                             <input
@@ -251,33 +238,13 @@ const PostForm = ({ ride }) => {
                                                                 autoComplete="phone"
                                                                 placeholder='Phone Number'
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                                                {...register("Riderphone", { required: true })}
+                                                                {...register("SalePrice", { required: true })}
 
                                                             />
 
                                                         </div>
                                                     </div>
-                                                    <div className='sm: col-span-3'>
-                                                        <label
-                                                            htmlFor="address"
-                                                            className="block text-sm font-medium text-gray-700"
-                                                        >
-                                                            Email id:
-                                                        </label>
-                                                        <div className="mt-1">
-                                                            <input
-                                                                type="text"
-                                                                id="address"
-                                                                name="address"
-                                                                autoComplete="email-id"
-                                                                placeholder='Email id'
-                                                                className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                                                {...register("Rideremail", { required: true })}
-
-                                                            />
-
-                                                        </div>
-                                                    </div>
+                                                    
 
 
                                                 </div>
@@ -288,7 +255,7 @@ const PostForm = ({ ride }) => {
                                                     type="submit"
                                                     className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                                                 >
-                                                    {ride ? "Update" : "Submit"}
+                                                    {item ? "Update" : "Submit"}
                                                 </button>
                                             </div>
                                         </div>
@@ -342,4 +309,4 @@ const PostForm = ({ ride }) => {
     )
 }
 
-export default PostForm
+export default FoodForm

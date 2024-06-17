@@ -8,7 +8,6 @@ import { ID } from 'appwrite'
 const Checkout = () => {
     const userData = useSelector(state => state.auth.userData)
     const Items = useSelector(state => state.cartitems.cartitems)
-    console.log(JSON.stringify(Items), "this is type and;", Items)
     let totalOrderPrice = 0;
     let totalSalePrice = 0;
     Items.forEach(item => {

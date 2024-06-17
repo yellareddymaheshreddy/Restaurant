@@ -10,28 +10,32 @@ import { additemtocart } from "../store/cartSlice";
 export default function Food() {
     const [image, setimage] = useState(0)
     const [Quantity, setQuantity] = useState(1)
+    const [item, setPost] = useState({});
+    const [fooditems, setfooditems] = useState()
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
     const { slug } = useParams();
-    const fooditems = useSelector(state => state.fooditems.fooditems)
-    const [item, setPost] = useState({});
+    const s = useSelector(state => state.fooditems.fooditems)
+    
     let isAuthor = item && userData ? item.Createdby === userData.$id : false;
     useEffect(() => {
-        fooditems.map((item) => {
+        setfooditems(s)
+        fooditems?.map((item) => {
+            console.log(item)
             if (item.$id == slug) {
-                console.log("found object", item)
+                console.log(item,'food')
                 setPost(item);
             }
         })
-
+        console.log(fooditems,'food items form food')
     }, [slug, navigate, fooditems, isAuthor])
 
     const dispatch = useDispatch();
 
     const deletePost = () => {
-        notifysuccess("deletion sucessfull!")
+        // notifysuccess("deletion sucessfull!")
         dispatch(deletefood(item.$id))
-        appwriteService.deletePost(item.$id)
+        appwriteService.deleteFoodItem(item.$id)
         navigate("/")
 
     }
@@ -175,7 +179,6 @@ export default function Food() {
                                     type="button"
                                     class="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                                     onClick={()=>{
-                                        console.log({Name:item.Name,OrderPrice:item.OrderPrice,SalePrice:item.SalePrice,Quantity:Quantity,ItemID:item.$id})
                                         dispatch(additemtocart({Name:item.Name,OrderPrice:item.OrderPrice,SalePrice:item.SalePrice,Quantity:Quantity,ItemID:item.$id,image:item.Images}))
                                     }}
                                 >
@@ -239,10 +242,33 @@ export default function Food() {
                                     }
                                 </p>
                             </div>
+                            {true && (
+                <div className="flex justify-end space-x-4">
+                    <button
+                        onClick={() => {
+                            // navigate(`/edit-ride/${ride.$id}`)
+                            navigate(`/edit-ride/${item.$id}`)
+                        }}
+                        type="button"
+                        className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black bg-green-50"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        onClick={deletePost}
+                        type="button"
+                        className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black bg-red-50"
+                    >
+                        Delete
+                    </button>
+                </div>
+            )}
                         </div>
+                        
                     </div>
                 </div>
             </div>
+            
         </div>
 
     ) : null;

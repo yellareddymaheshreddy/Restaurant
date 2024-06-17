@@ -9,7 +9,8 @@ import AuthLayout from './components/AuthLayout.jsx'
 import LandingPage from './components/Landingpage.jsx'
 import Login from './components/Login.jsx'
 import Signup from './components/Signup.jsx'
-
+import EditRide from './components/EditRide.jsx'
+import CreateRide from './components/CreateRide.jsx'
 // import ErrorPage from "./error-page";
 import store from './store/store.js'
 import Food from './components/Food.jsx'
@@ -85,24 +86,24 @@ const router = createBrowserRouter([{
   path:'/cart/checkout',
   element:<Checkout/>
 },
-// {
-//   path: "/edit-ride/:slug",
-//   element: (
-//       // <AuthLayout authentication>
-//           // {" "}
-//           <EditRide />
-//       // </AuthLayout>
-//   ),
-// },
-// {
-//   path: "/add-ride",
-//   element: (
-//       <AuthLayout authentication>
-//           {" "}
-//           <CreateRide />
-//       </AuthLayout>
-//   ),
-// },
+{
+  path: "/edit-ride/:slug",
+  element: (
+      // <AuthLayout authentication>
+          // {" "}
+          <EditRide />
+      // </AuthLayout>
+  ),
+},
+{
+  path: "/add-ride",
+  element: (
+      <AuthLayout authentication>
+          {" "}
+          <CreateRide />
+      </AuthLayout>
+  ),
+},
   ]
 }])
 

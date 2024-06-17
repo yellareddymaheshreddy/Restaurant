@@ -15,20 +15,23 @@ export class Service {
         this.bucket = new Storage(this.client);
     }
 
-    async createFoodItem({ title, desc, images, orderprice, saleprice, category }) {
+    async createFoodItem(id,{ Name, Description, Images, OrderPrice, SalePrice, Category,Status }) {
+        console.log('order price from config',OrderPrice,typeof(OrderPrice))
+
         try {
-            console.log(Rideid, "inapprite")
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                ID.unique(),
+                // ID.unique(),
+                id,
                 {
-                    title,
-                    desc,
-                    images,
-                    orderprice,
-                    saleprice,
-                    category
+                    Name,
+                    Description,
+                    Images,
+                    OrderPrice:Number.parseInt(OrderPrice),
+                    SalePrice:Number.parseInt(SalePrice),
+                    Category,
+                    Status
                 }
             )
         } catch (error) {
@@ -36,19 +39,20 @@ export class Service {
         }
     }
 
-    async updateFoodItem(id, { title, desc, images, orderprice, saleprice, category }) {
+    async updateFoodItem(id, { Name, Description, Images, OrderPrice, SalePrice, Category ,Status}) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 id,
                 {
-                    title,
-                    desc,
-                    images,
-                    orderprice,
-                    saleprice,
-                    category
+                    Name,
+                    Description,
+                    Images,
+                    OrderPrice:Number.parseInt(OrderPrice),
+                    SalePrice:Number.parseInt(SalePrice),
+                    Category,
+                    Status
                 }
             )
         } catch (error) {
@@ -85,7 +89,7 @@ export class Service {
         }
     }
 
-    async getFoodItems(queries = [Query.orderAsc('title')]) {
+    async getFoodItems(queries = [Query.orderAsc('Name')]) {
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
