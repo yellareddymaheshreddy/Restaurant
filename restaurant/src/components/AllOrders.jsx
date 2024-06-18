@@ -20,17 +20,18 @@ const AllOrders = () => {
 
       if (response.events.includes("databases.*.collections.*.documents.*.create")) {
         console.log('event occured')
-        // setString('')
-        // JSON.parse(response.payload.Items[0]).map(item => {
-        //   console.log(item)
-        //   setString(prev => prev + `${item.Quantity} ${item.Name},`)
-        // })
-        // console.log(string,'string')
+        setString('')
+        JSON.parse(response.payload.Items[0]).map(item => {
+          console.log(item)
+          setString(prev => prev + `${item.Quantity} ${item.Name} `)
+          console.log(string,'before')
+        })
+        console.log(string,'string')
         // console.log('event done')
         const message = new SpeechSynthesisUtterance();
 
         // set the text to be spoken
-        message.text = `New order`;
+        message.text = `New order ${string}`;
 
         // create an instance of the speech synthesis object
         const speechSynthesis = window.speechSynthesis;
@@ -38,6 +39,7 @@ const AllOrders = () => {
         // start speaking
         speechSynthesis.speak(message);
         seto((prev) => [...prev, response.payload])
+        // setString('')
       }
     });
 
