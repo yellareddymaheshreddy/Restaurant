@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react'
 import service from '../appwrite/config'
 import conf from '../conf/conf'
 import { Link } from 'react-router-dom'
+import { Query } from 'appwrite'
 
 const AllOrders = () => {
   const [o, seto] = useState([])
   const [string, setString] = useState('')
   useEffect(() => {
-    service.getAllOrders().then((allorders) => {
+    // const dateInIST = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Kolkata' });
+    // const [day, month, year] = dateInIST.split(', ')[0].split('/');
+    // const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    const formattedDate = new Date().toISOString().split('T')[0];
+    service.getAllOrders([Query.startsWith("$createdAt", formattedDate)]).then((allorders) => {
+      console.log(allorders.documents)
       seto(allorders.documents)
     })
   }, [])
@@ -23,7 +29,7 @@ const AllOrders = () => {
           console.log(item)
           setString(prev => prev + `${item.Quantity} ${item.Name} `)
         })
-        
+
         seto((prev) => [...prev, response.payload])
       }
     });
@@ -34,23 +40,26 @@ const AllOrders = () => {
   }, [])
 
   useEffect(() => {
-    console.log('new order ',string)
-    const message = new SpeechSynthesisUtterance();
-        message.text = `New order ${string}`;
-        const speechSynthesis = window.speechSynthesis;
-        speechSynthesis.speak(message);
-        // return()=>{
-        //   // speechSynthesis.pause();
-        // }
+    console.log('new order ', string)
+    if(string.length>1){
+      const message = new SpeechSynthesisUtterance();
+    message.text = `New order ${string}`;
+    const speechSynthesis = window.speechSynthesis;
+    speechSynthesis.speak(message);
+    }
+    
+    // return()=>{
+    //   // speechSynthesis.pause();
+    // }
   }, [string])
-  
+
 
   return (
     <div className='allk'>
       <section class="mx-auto w-full max-w-7xl px-4 py-4">
         <div class="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
           <div>
-            <h2 class="text-lg font-semibold">All Orders</h2>
+            <h2 class="text-lg font-semibold">All Orders (<span className='font-bold'>Today</span>)</h2>
             <p class="mt-1 text-sm text-gray-700">
               This is a list of all Orders.
             </p>

@@ -158,12 +158,12 @@ export class Service {
             return false
         }
     }
-    async getAllOrders(queries = [Query.orderAsc('')]) {
+    async getAllOrders(queries = [Query.startsWith("$cratedAt", '2024-06-18')]) {
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionIdOrders,
-                // queries,
+                queries,
             )
         } catch (error) {
             console.log("Appwrite serive :: getAllOrders :: error", error);

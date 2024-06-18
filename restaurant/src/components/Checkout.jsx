@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux'
 import { ID } from 'appwrite'
 
 const Checkout = () => {
-
-
+    
+    
     const userData = useSelector(state => state.auth.userData)
     const [Location, setLocation] = useState()
     const Items = useSelector(state => state.cartitems.cartitems)
@@ -20,10 +20,10 @@ const Checkout = () => {
     const listofVillages = ['Mangalpally', 'Sheriguda', 'CVR'];
     const { register, handleSubmit } = useForm({
         defaultValues: {
-            Landmark: 'hh',
+            Landmark: '',
             Village: 'Mangalpally',
             GrandTotal: '',
-            Message: 'h',
+            Message: '',
             Rideremail: userData.email || '',
             MobileNumber: userData.phone || '+91',
             Ridername: userData.name || '',
@@ -33,7 +33,10 @@ const Checkout = () => {
     });
     const navigate = useNavigate();
     const submit = async (data) => {
-
+        navigator.geolocation.getCurrentPosition((position) => {
+            console.log(position.coords.latitude, position.coords.longitude);
+            setLocation(`${position.coords.latitude},${position.coords.longitude}`)
+        })
         const uniqueid = ID.unique();
         // dispatch(create({ ...data, GrandTotal: Number(data.GrandTotal), Createdby: userData.$id, Rideid: uniqueid }))
         // navigate(`/ride/${uniqueid}`)
@@ -186,7 +189,6 @@ const Checkout = () => {
                                                                 type="text"
                                                                 name="cvc"
                                                                 id="cvc"
-
                                                                 autoComplete="csc"
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                                 {...register("Location", { required: true })}
