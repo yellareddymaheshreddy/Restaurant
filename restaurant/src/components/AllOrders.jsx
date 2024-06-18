@@ -14,50 +14,39 @@ const AllOrders = () => {
 
 
   useEffect(() => {
-    console.log('trying to suscribe')
     const unsubscribe = service.client.subscribe(`databases.${conf.appwriteDatabaseId}.collections.${conf.appwriteCollectionIdOrders}.documents`, response => {
-      // Callback will be executed on changes for all files.
-
+      console.log(response)
       if (response.events.includes("databases.*.collections.*.documents.*.create")) {
         console.log('event occured')
         setString('')
         JSON.parse(response.payload.Items[0]).map(item => {
           console.log(item)
           setString(prev => prev + `${item.Quantity} ${item.Name} `)
-          console.log(string,'before')
         })
-        console.log(string,'string')
-        // console.log('event done')
-        const message = new SpeechSynthesisUtterance();
-
-        // set the text to be spoken
-        message.text = `New order ${string}`;
-
-        // create an instance of the speech synthesis object
-        const speechSynthesis = window.speechSynthesis;
-
-        // start speaking
-        speechSynthesis.speak(message);
+        
         seto((prev) => [...prev, response.payload])
-        // setString('')
       }
     });
 
-    console.log('may be suscribed')
     return () => {
       unsubscribe()
     }
   }, [])
 
+  useEffect(() => {
+    console.log('new order ',string)
+    const message = new SpeechSynthesisUtterance();
+        message.text = `New order ${string}`;
+        const speechSynthesis = window.speechSynthesis;
+        speechSynthesis.speak(message);
+        // return()=>{
+        //   // speechSynthesis.pause();
+        // }
+  }, [string])
+  
+
   return (
     <div className='allk'>
-
-      {/* {o.map((object)=>(
-      <div key={object.MobileNumber}>
-        {object.MobileNumber}
-      </div>
-     ))} */}
-
       <section class="mx-auto w-full max-w-7xl px-4 py-4">
         <div class="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
           <div>
@@ -66,14 +55,7 @@ const AllOrders = () => {
               This is a list of all Orders.
             </p>
           </div>
-          {/* <div>
-            <button
-              type="button"
-              class="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-            >
-              Add new employee
-            </button>
-          </div> */}
+
         </div>
         <div class="mt-6 flex flex-col">
           <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -88,12 +70,7 @@ const AllOrders = () => {
                       >
                         <span>Items</span>
                       </th>
-                      {/* <th
-                        scope="col"
-                        class="px-12 py-3.5 text-left text-sm font-normal text-gray-500"
-                      >
-                        Quantity
-                      </th> */}
+
                       <th
                         scope="col"
                         class="px-4 py-3.5 text-left text-sm font-normal text-gray-500"
