@@ -17,6 +17,7 @@ import Food from './components/Food.jsx'
 import Cart from './components/Cart.jsx'
 import Checkout from './components/Checkout.jsx'
 import AllOrders from './components/AllOrders.jsx'
+import Admin from './components/Admin.jsx'
 const router = createBrowserRouter([{
   path: "/",
   element: 
@@ -79,8 +80,11 @@ const router = createBrowserRouter([{
   path:'/cart',
   element:
   <Cart/>,
-  
-   
+},
+{
+path:'/admin',
+element:
+<Admin/>
 },
 {
   path:'/cart/checkout',

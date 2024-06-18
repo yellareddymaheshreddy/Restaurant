@@ -18,7 +18,7 @@ export default function Food() {
     const { slug } = useParams();
     const s = useSelector(state => state.fooditems.fooditems)
     
-    let isAuthor = item && userData.labels.includes('admin');
+    let isAuthor = item && userData?.labels.includes('admin');
 
     
     useEffect(() => {
@@ -139,7 +139,7 @@ export default function Food() {
                             <div className="flex justify-between items-center">
 
                                 <div class="pb-5">
-                                    <h2 class=" text-2xl font-bold">
+                                    <h2 class=" text-2xl font-bold capitalize">
                                         {item.Name}
                                     </h2>
                                     <p class="mt-4 font-semibold line-through">₹{item.OrderPrice}</p>
@@ -171,8 +171,8 @@ export default function Food() {
                                         <h4 class="text-15px mb-3 capitalize text-opacity-70 text-xl font-bold">
                                             Total:
                                         </h4>
-                                        <ul class="flex flex-wrap space-x-2 text-2xl font-bold">
-                                           {Quantity*item.SalePrice}
+                                        <ul class="flex flex-wrap space-x-2 text-xl font-bold">
+                                           ₹{Quantity*item.SalePrice}
                                         </ul>
                                     </div>
                                 </div>

@@ -8,6 +8,8 @@ import { ID } from 'appwrite'
 import { addfood,updatefood } from '../store/foodItemsSlice'
 
 const FoodForm = ({ item }) => {
+    const [images, setimages] = React.useState([])
+    const [number, setNumber] = React.useState(0)
     const date = new Date().getFullYear() + "-0" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
     const listofvechicles = ['Veg','Non-Veg'];
     const dispatch = useDispatch();
@@ -16,11 +18,11 @@ const FoodForm = ({ item }) => {
         defaultValues: {
             Name: item?.Name || '',
             Description: item?.Description || '',
-            Category: item?.Category || '',
-            Status: item?.Status || '',
+            Category: item?.Category || 'Non-Veg',
+            Status: item?.Status || 'Active',
             Images: item?.Images || '',
             $id: item?.$id || "",
-            SalePrice:item?.SalePrice|| '+91',
+            SalePrice:item?.SalePrice|| '',
             OrderPrice:item?.OrderPrice || '',
 
         }
@@ -141,7 +143,7 @@ const FoodForm = ({ item }) => {
                                                             Status:
                                                         </label>
                                                         <div className="mt-1">
-                                                        <select defaultValue={"Active"} name="vechicle" id="vechicle" className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                        <select name="vechicle" id="vechicle" className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                                 {...register("Status", { required: true })}
                                                                 placeholder="Active"
                                                             >
@@ -180,6 +182,11 @@ const FoodForm = ({ item }) => {
                                                         </label>
                                                         <div className="mt-1">
                                                             <textarea name="" id=""
+                                                            onInput={(e)=>{
+                                                                setimages(e.target.value.split(','))
+                                                                console.log('hello capture',images,typeof(images))
+                                                            }}
+                                                            placeholder='Enter 3 links separated by (,) comma.'
                                                             className="flex w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
                                                             {...register("Images", { required: true })}>
 
@@ -211,9 +218,12 @@ const FoodForm = ({ item }) => {
                                                             <input
                                                                 type="text"
                                                                 id="address"
-                                                                name="address"
-                                                                autoComplete="phone"
-                                                                placeholder='Phone Number'
+                                                                onChangeCapture={()=>{
+                                                                    console.log('change')
+                                                                }}
+                                                                name="Price"
+                                                                
+                                                                placeholder='₹699'
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                                 {...register("OrderPrice", { required: true })}
 
@@ -234,9 +244,9 @@ const FoodForm = ({ item }) => {
                                                             <input
                                                                 type="text"
                                                                 id="address"
-                                                                name="address"
-                                                                autoComplete="phone"
-                                                                placeholder='Phone Number'
+                                                                name="price"
+                                                                autoComplete="price"
+                                                                placeholder='₹599 '
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                                 {...register("SalePrice", { required: true })}
 
@@ -265,6 +275,89 @@ const FoodForm = ({ item }) => {
                         </div>
                     </div>
                     <div className="bg-gray-100 px-5 py-6 md:px-8">
+                    <div class="w-full ">
+                                <div class="relative mb-2.5 w-full shrink-0 overflow-hidden rounded-md border md:mb-3 ">
+                                    <div class="relative flex items-center justify-center">
+                                        <img
+                                            alt={images.length>0?images[0]:'Product 1'}
+                                            src={images?images[number]:''}
+                                            // src={item.Images ? item.Images[image] : ''}
+                                            // src="https://images.unsplash.com/photo-1580902394724-b08ff9ba7e8a?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1548&amp;q=80"
+                                            width="350"
+                                            height="350"
+                                            class="rounded-lg h-[350px] object-cover "
+                                        />
+                                    </div>
+                                    <div class="absolute top-2/4 z-10 flex w-full items-center justify-between">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="text-white"
+                                        >
+                                            <polyline points="15 18 9 12 15 6"></polyline>
+                                        </svg>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="text-white"
+                                        >
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <div class="border-border-base flex cursor-pointer items-center justify-center overflow-hidden rounded border transition hover:opacity-75 ">
+                                        <img
+                                            alt={images.length>0?images[0]:'Product 1'}
+                                            src={images?images[0]:''}
+                                            decoding="async"
+                                            loading="lazy"
+                                            class="h-20 w-20 object-cover md:h-24 md:w-24 lg:h-28 lg:w-28 xl:w-32"
+                                            onClick={() => {
+                                                setNumber(0)
+                                            }}
+                                        />
+                                    </div>
+                                    <div class="border-border-base flex cursor-pointer items-center justify-center overflow-hidden rounded border transition hover:opacity-75 ">
+                                        <img
+                                            alt={images.length>1?images[1]:'Product 2'}
+                                            src={images?images[1]:''}
+                                            decoding="async"
+                                            loading="lazy"
+                                            class="h-20 w-20 object-cover md:h-24 md:w-24 lg:h-28 lg:w-28 xl:w-32"
+                                            onClick={() => {
+                                                setNumber(1)
+                                            }}
+                                        />
+                                    </div>
+                                    <div class="border-border-base flex cursor-pointer items-center justify-center overflow-hidden rounded border transition hover:opacity-75 ">
+                                        <img
+                                            alt={images.length>2?images[2]:'Product 3'}
+                                            src={images?images[2]:''}
+                                            decoding="async"
+                                            loading="lazy"
+                                            class="h-20 w-20 object-cover md:h-24 md:w-24 lg:h-28 lg:w-28 xl:w-32"
+                                            onClick={() => {
+                                                setNumber(2)
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         <section className="py-10">
                             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                                 <div className="mx-auto w-full text-center md:max-w-2xl">

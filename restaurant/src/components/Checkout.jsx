@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux'
 import { ID } from 'appwrite'
 
 const Checkout = () => {
+
+
     const userData = useSelector(state => state.auth.userData)
     const [Location, setLocation] = useState()
     const Items = useSelector(state => state.cartitems.cartitems)
@@ -18,10 +20,10 @@ const Checkout = () => {
     const listofVillages = ['Mangalpally', 'Sheriguda', 'CVR'];
     const { register, handleSubmit } = useForm({
         defaultValues: {
-            Landmark: '',
-            Village: '',
+            Landmark: 'hh',
+            Village: 'Mangalpally',
             GrandTotal: '',
-            Message: '',
+            Message: 'h',
             Rideremail: userData.email || '',
             MobileNumber: userData.phone || '+91',
             Ridername: userData.name || '',
@@ -45,7 +47,7 @@ const Checkout = () => {
         if (dbride) {
             // notifysuccess("Ride Created Successfully!")
             console.log('order successfull')
-            navigate('/')
+            // navigate('/')
         } else {
             // notifyfail("something went wrong when createing file on server")
         }
@@ -68,7 +70,7 @@ const Checkout = () => {
                                                     id="contact-info-heading"
                                                     className="text-lg font-semibold text-gray-900"
                                                 >
-                                                    Ride information
+                                                    Delivery information
                                                 </h3>
                                                 <div className="mt-4 w-full">
                                                     <label
@@ -80,7 +82,7 @@ const Checkout = () => {
                                                     <input
                                                         className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                         type="text"
-                                                        placeholder="Hyderabad...."
+                                                        placeholder="Ganesh hostel...."
                                                         id="name"
                                                         {...register("Landmark", { required: true })}
                                                     />
@@ -90,7 +92,7 @@ const Checkout = () => {
                                             <hr className="my-4" />
                                             <div className="mt-5">
                                                 <h3 className="text-lg font-semibold text-gray-900">
-                                                    Village details
+                                                    Price details
                                                 </h3>
                                                 <div className="mt-2 grid  gap-x-4 gap-y-4 sm:grid-cols-4">
 
@@ -121,7 +123,7 @@ const Checkout = () => {
                                             <hr className="my-4" />
                                             <div className="mt-5">
                                                 <h3 className="text-lg font-semibold text-gray-900">
-                                                    Village Details
+                                                    Location Details
                                                 </h3>
                                                 <div className="mt-2 grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-3">
                                                     <div className="sm:col-span-3">
@@ -137,7 +139,7 @@ const Checkout = () => {
                                                                 id="address"
                                                                 name="address"
                                                                 autoComplete="message"
-                                                                placeholder='Its a free ride ....'
+                                                                placeholder='Near JMJ hostel'
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                                 {...register("Message", { required: true })}
 
@@ -150,10 +152,10 @@ const Checkout = () => {
                                                             htmlFor="cvc"
                                                             className="block text-sm font-medium text-gray-700"
                                                         >
-                                                            Village Type:
+                                                            Village :
                                                         </label>
                                                         <div className="mt-1">
-                                                            <select defaultValue={"Bike"} name="Village" id="Village" className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                            <select name="Village" id="Village" className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                                 {...register("Village", { required: true })}
                                                                 placeholder=""
                                                             >
@@ -164,13 +166,13 @@ const Checkout = () => {
 
                                                         </div>
                                                     </div>
-                                                    <div className='w-max' 
-                                                    onClick={()=>{
-                                                        navigator.geolocation.getCurrentPosition((position) => {
-                                                            console.log(position.coords.latitude, position.coords.longitude);
-                                                            setLocation(`${position.coords.latitude},${position.coords.longitude}`)
-                                                          });
-                                                    }}>
+                                                    <div className='w-max'
+                                                        onClick={() => {
+                                                            navigator.geolocation.getCurrentPosition((position) => {
+                                                                console.log(position.coords.latitude, position.coords.longitude);
+                                                                setLocation(`${position.coords.latitude},${position.coords.longitude}`)
+                                                            });
+                                                        }}>
                                                         <label
                                                             htmlFor="cvc"
                                                             className="block text-sm font-medium text-gray-700"
@@ -184,6 +186,7 @@ const Checkout = () => {
                                                                 type="text"
                                                                 name="cvc"
                                                                 id="cvc"
+
                                                                 autoComplete="csc"
                                                                 className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                                 {...register("Location", { required: true })}
@@ -191,7 +194,7 @@ const Checkout = () => {
                                                             />
                                                         </div>
                                                     </div>
-                                                    
+
 
 
                                                 </div>
@@ -199,14 +202,14 @@ const Checkout = () => {
                                             <hr className="my-4" />
                                             <div className="mt-5">
                                                 <h3 className="text-lg font-semibold text-gray-900">
-                                                    Rider Contact Details!
+                                                    Contact Details!
                                                 </h3>
                                                 <div className="sm:col-span-3">
                                                     <label
                                                         htmlFor="address"
                                                         className="block text-sm font-medium text-gray-700"
                                                     >
-                                                        Rider Name:
+                                                        Name:
                                                     </label>
                                                     <div className="mt-1">
                                                         <input
@@ -214,7 +217,7 @@ const Checkout = () => {
                                                             id="address"
                                                             name="address"
                                                             autoComplete="phone"
-                                                            placeholder='Phone Number'
+                                                            placeholder='Name'
                                                             className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                             {...register("Ridername", { required: true })}
 
