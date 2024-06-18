@@ -174,6 +174,8 @@ const Checkout = () => {
                                                             navigator.geolocation.getCurrentPosition((position) => {
                                                                 console.log(position.coords.latitude, position.coords.longitude);
                                                                 setLocation(`${position.coords.latitude},${position.coords.longitude}`)
+                                                            },()=>{
+                                                                setLocation(`getting position failed`)
                                                             });
                                                         }}>
                                                         <label
