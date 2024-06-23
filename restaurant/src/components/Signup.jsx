@@ -21,7 +21,7 @@ function Signup() {
     //         SecureToken: conf.SecureToken,
     //         To: conf.maheshmail,
     //         From: conf.maheshmail,
-    //         Subject: `Teleport : ${details[0]} Newly signed up!`,
+    //         Subject: `Online Kitchen : ${details[0]} Newly signed up!`,
     //         Body: `<body style="margin: 0;padding: 0;">
     //         <div
     //             style="background-color: black; background-color: black;color: white; display: flex;
@@ -32,7 +32,7 @@ function Signup() {
     //                 </p>
     //                 <p style=" color: azure; margin: 4vw;">
     //                     New user signuped!!!! <a href="https://maheshreddy.online/"
-    //                         style=" color:aqua;;">Teleport</a> :
+    //                         style=" color:aqua;;">Online Kitchen</a> :
     //                 </p>
     //                 <hr style="margin: 4vw;">
 
@@ -117,7 +117,7 @@ function Signup() {
             <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
                 <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
                     <div className="mb-2 flex justify-center">
-                        {/* <img src="/favicon.svg" alt="Teleport" height={56} width={56} /> */} logo
+                        {/* <img src="/favicon.svg" alt="Online Kitchen" height={56} width={56} /> */} logo
                     </div>
                     <h2 className="text-center text-2xl font-bold leading-tight text-black">
                         Sign up to create account

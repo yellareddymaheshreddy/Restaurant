@@ -12,7 +12,7 @@ const Footer = () => {
                             <a href="#">
                                 <div className="inline-flex items-center">
                                     <img src="/favicon.svg" alt="favicon" width={46} height={46} />
-                                    <span className="ml-4 text-lg font-bold">Teleport</span>
+                                    <span className="ml-4 text-lg font-bold">Online Kitchen</span>
                                 </div>
                             </a>
                         </div>

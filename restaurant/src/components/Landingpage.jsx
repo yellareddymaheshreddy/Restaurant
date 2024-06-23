@@ -22,7 +22,7 @@ const Landingpage = () => {
                         <div className='mnmsg'>
                             <div className='font-medium text-base px-3 capitalize'>Hi {userdata?.name},</div>
 
-                            <div className=' font-medium text-2xl px-3'>Welcome to <span className='animate-pul'>Teleport</span></div>
+                            <div className=' font-medium text-2xl px-3'>Welcome to <span className='animate-pul'>Online Kitchen</span></div>
                         </div>
                         {/* <div className="mt-8 flex max-w-max items-center space-x-2 rounded-full bg-gray-100 p-1">
                             <div className="rounded-full bg-white p-1 px-2">

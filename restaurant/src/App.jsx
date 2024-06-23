@@ -4,15 +4,17 @@ import authService from "./appwrite/auth"
 import { login, logout } from "./store/authSlice"
 import { Footer, Header } from './components'
 import { Outlet } from 'react-router-dom'
-// import { ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 // import { setrides } from './store/ridesSlice'
 import { setfood } from './store/foodItemsSlice'
 import service from './appwrite/config'
+import { notifyfail, notifysuccess } from './components/toast'
 
 
 
 function App() {
-
+  notifysuccess('hello','colored')
+  notifyfail('bye')
   const [loading, setLoading] = useState(true)
   // const [prompt, setprompt] = useState(null)
   const dispatch = useDispatch()
@@ -51,7 +53,7 @@ function App() {
 
   return !loading ? (
     <div className='min-h-screen flex flex-wrap content-between' >
-      {/* <ToastContainer /> */}
+      <ToastContainer />
       <div className='w-full block'>
         {/* <Navbar install={install} /> */}
         <Header />

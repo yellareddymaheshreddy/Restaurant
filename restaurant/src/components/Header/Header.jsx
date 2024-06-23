@@ -34,7 +34,7 @@ const Header = () => {
             <li>
               <NavLink className={({ isActive }) => `flex gap-2 items-center hover:text-fuchsia-600 ${isActive ? "text-fuchsia-600" : ""}`} to={"/all-rides"} onClick={() => { setmenu(false) }}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-                All Rides
+                All Items
               </NavLink>
             </li>
             <li>
@@ -66,7 +66,7 @@ const Header = () => {
           <span>
             <img src="/favicon.svg" alt="" height={35} width={35} />
           </span>
-          <span className="font-bold text-xl">Teleport</span>
+          <span className="font-bold text-xl">Online Kitchen</span>
         </div>
         <div className="hidden lg:block">
           <ul className="inline-flex space-x-8 font-bold">
@@ -79,7 +79,7 @@ const Header = () => {
             <li>
               <NavLink className={({ isActive }) => `flex gap-2 items-center hover:text-fuchsia-600 ${isActive ? "text-fuchsia-600" : ""}`} to={"/all-rides"} onClick={() => { setmenu(false) }}>
                 {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg> */}
-                All Rides
+                All Items
               </NavLink>
             </li>
             <li>
