@@ -13,8 +13,7 @@ import { notifyfail, notifysuccess } from './components/toast'
 
 
 function App() {
-  notifysuccess('hello','colored')
-  notifyfail('bye')
+
   const [loading, setLoading] = useState(true)
   // const [prompt, setprompt] = useState(null)
   const dispatch = useDispatch()
